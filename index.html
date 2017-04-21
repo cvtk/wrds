@@ -7,21 +7,23 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link href="//cdn.muicss.com/mui-0.9.15/css/mui.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.css" integrity="sha256-G5VA29cSH+JxK8+MeAVL36QhUlTv7Fipck5dnVXpUXw=" crossorigin="anonymous" />
 	<link rel="stylesheet" href="assets/a.css">
-  <script src="//cdn.muicss.com/mui-0.9.15/js/mui.min.js"></script>
 </head>
 
 <body>
-  <div id="app" class="page">
-    <aside class="sidebar-navigation">
-      <span id="user"> {{ user }}</span>
+  <div id="app" class="app-page">
+    <header class="page-header">
+      
+    </header>
+    <aside class="page-navigation">
+      <span id="user"> {{ user.email }}</span>
       <router-link to="/">Главная</router-link>
       <router-link to="/profile">Профиль</router-link>
       <router-link to="/publications">Публикации</router-link>
     </aside>
   
-    <main class="content">
+    <main class="page-content">
       <router-view></router-view>
     </main>
   </div>

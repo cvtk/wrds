@@ -10,19 +10,41 @@
       messagingSenderId: '310931060091'
     });
 
-  var app = {};
-  app.db = firebaseApp.database();
-  const routes = [
-      { path: '/', component: app.home },
-      { path: '/profile', component: app.profile },
-      { path: '/publications', component: app.publications }
-  ];
-  app.router = new VueRouter({ routes });
+  var db = firebaseApp.database();
 
-  app.init = new Vue({ router: app.router }).$mount('#app');
+  const Profile = { template: '#profile' };
+  const Home = { template: '#home' };
+  const Publications = { template: '#publications',
+    firebase: {
+      anArray: db.ref('publications'),
+      anObject: {
+        source: db.ref('publications'),
+        asObject: true,
+        cancelCallback: function(error) {
+          console.log(error);
+        }
+      }
+    },
+    methods: {
+      reduceRating: function(key) {
+        this.$firebaseRefs.anArray.child(key).child('rating').set('34');
+      },
+      increaseRating: function(key) {
+        this.$firebaseRefs.anArray.child(key).child('rating').set('22');
+      },
+    }
+  };
 
-  app.user = new Vue({
-    el: '#user',
+  var router = new VueRouter({ routes: 
+    [
+      { path: '/', component: Home },
+      { path: '/profile', component: Profile },
+      { path: '/publications', component: Publications }
+    ]
+  });
+
+  var app = new Vue({ 
+    router: router,
     data: { user: {} },
     beforeCreate: function() {
       firebase.auth().onAuthStateChanged(function(user) {
@@ -34,36 +56,8 @@
           firebase.auth().signInAnonymously().catch(console.error);
         }
       }.bind(this));
-    }
-  });
-  app.profile = Vue.extend({
-    template: '#profile'
-  });
+    }    
 
-  app.home = Vue.extend({
-    template: '#home'
-  });
-
-  app.publications = Vue.extend({
-    template: '#publications',
-    firebase: {
-      anArray: app.db.ref('publications'),
-      anObject: {
-        source: app.db.ref('publications'),
-        asObject: true,
-        cancelCallback: function(error) {
-          console.log(error);
-        }
-      }
-    },
-    methods: {
-      reduceRating: function(key) {
-        app.publications.$firebaseRefs.anArray.child(key).child('rating').set('34');
-      },
-      increaseRating: function(key) {
-        app.publications.$firebaseRefs.anArray.child(key).child('rating').set('22');
-      },
-    }
-  });
+  }).$mount('#app');
 
 }());
