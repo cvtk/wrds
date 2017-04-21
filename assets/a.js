@@ -12,8 +12,40 @@
 
   var app = {};
   app.db = firebaseApp.database();
-  app.publications = new Vue({
-    el: '#publications',
+  const routes = [
+      { path: '/', component: app.home },
+      { path: '/profile', component: app.profile },
+      { path: '/publications', component: app.publications }
+  ];
+  app.router = new VueRouter({ routes });
+
+  app.init = new Vue({ router: app.router }).$mount('#app');
+
+  app.user = new Vue({
+    el: '#user',
+    data: { user: {} },
+    beforeCreate: function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          this.user = user; 
+        }
+        else {
+          console.log(this.user);
+          firebase.auth().signInAnonymously().catch(console.error);
+        }
+      }.bind(this));
+    }
+  });
+  app.profile = Vue.extend({
+    template: '#profile'
+  });
+
+  app.home = Vue.extend({
+    template: '#home'
+  });
+
+  app.publications = Vue.extend({
+    template: '#publications',
     firebase: {
       anArray: app.db.ref('publications'),
       anObject: {
