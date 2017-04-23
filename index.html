@@ -1,73 +1,13 @@
-<!doctype html>
-<html lang="ru">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<title>Wrds</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.css" integrity="sha256-G5VA29cSH+JxK8+MeAVL36QhUlTv7Fipck5dnVXpUXw=" crossorigin="anonymous" />
-	<link rel="stylesheet" href="assets/a.css">
-</head>
-
-<body>
-  <div id="app" class="app-page">
-    <header class="page-header">
-      
-    </header>
-    <aside class="page-navigation">
-      <span id="user"> {{ user.email }}</span>
-      <router-link to="/">Главная</router-link>
-      <router-link to="/profile">Профиль</router-link>
-      <router-link to="/publications">Публикации</router-link>
-    </aside>
-  
-    <main class="page-content">
-      <router-view></router-view>
-    </main>
-  </div>
-
-
-
-  <!-- Vue JS -->
-  <script src="https://unpkg.com/vue"></script>
-
-  <!-- Vue JS Router -->
-  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
-
-  <!-- VueFire -->
-  <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
-
-  <!-- Vue. JS templates -->
-  <script type="text/x-template" id="home">
-    <p>home</p>
-  </script>
-
-  <script type="text/x-template" id="profile">
-    <p>profile</p>
-  </script>
-
-  <script type="text/x-template" id="publications">
-    <ul class="publications-list" id="publicationsList">
-      <li class="publications-item" :id="item['.key']" v-for="item in anArray">
-        <h2 class="title">{{ item.title }}</h2>
-        <span class="date">{{ item.date }}</span>
-        <div class="rating-data">
-          <span class="reduce" @click="reduceRating(item['.key'])">-</span>
-          <span class="rating">{{ item.rating }}</span>
-          <span class="increase" @click="increaseRating(item['.key'])">+</span>
-        </div>
-
-        <div class="content">{{ item.content }}</div>
-      </li>
-    </ul> 
-  </script>
-
-  <!-- Custom JS -->
-  <script src="assets/a.js"></script>
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>wrds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.css" integrity="sha256-G5VA29cSH+JxK8+MeAVL36QhUlTv7Fipck5dnVXpUXw=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="a.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="dist/build.js"></script>
+  </body>
 </html>
