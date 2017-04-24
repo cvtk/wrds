@@ -1,14 +1,18 @@
 import Vue from 'vue'
-
-import AppHeader from './Components/app-header.vue'
-import AppNavigation from './Components/app-navigation.vue'
-import ContentFlow from './Components/content-flow.vue'
+import firebase from './db'
 import router from './router'
 import App from './App.vue'
 
 new Vue({
-  el: 'body',
+  el: '#app',
   router: router,
-  components: 'App',
-  render: h => h(App)
-})
+  render: h => h(App),
+  computed: {
+    isAuth: function() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        this.user = ( user ? user: null );
+      }.bind(this));
+    }
+  },
+  data: { user: {} }
+});

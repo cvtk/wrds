@@ -1,27 +1,16 @@
 <template>
   <div id="app">
-    <app-header></app-header>
-    <app-navigation></app-navigation>
-    <main>
-      <div>
-        <router-view></router-view>
-      </div>
-    </main>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'app',
-  components: {
-    'app-header': AppHeader,
-    'app-navigation': AppNavigation,
-    'content-flow': ContentFlow
-  },
+  components: {},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'msg'
     }
   }
 }

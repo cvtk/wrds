@@ -4,7 +4,7 @@ import Firebase from 'firebase'
 
 Vue.use(VueFire)
 
-var fb = Firebase.initializeApp({
+export default Firebase.initializeApp({
     apiKey: 'AIzaSyBz-rXWMPsvuShKr9_O4uq0mazhrxbrow8',
     authDomain: 'wrds-5bb0a.firebaseapp.com',
     databaseURL: 'https://wrds-5bb0a.firebaseio.com',
@@ -13,4 +13,4 @@ var fb = Firebase.initializeApp({
     messagingSenderId: '310931060091'
   });
 
-export default fb.database();
+ 
