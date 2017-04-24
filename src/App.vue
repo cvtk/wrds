@@ -10,9 +10,9 @@ export default {
   components: {},
   data () {
     return {
-      msg: 'msg'
+      msg: ''
     }
-  }
+  },
 }
 </script>
 

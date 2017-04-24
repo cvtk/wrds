@@ -1,8 +1,9 @@
 <template>
   <aside>
     <nav>
-      <router-link to="/" active-class="_active" class="_icon _icon-home" title="Главная" exact></router-link>
-      <router-link to="/publications" active-class="_active" class="_icon _icon-publications" title="Мои публикации"></router-link>
+      <router-link to="/" class="_icon _icon-home" title="Главная" exact></router-link>
+      <router-link to="/publications" class="_icon _icon-publications" title="Публикации"></router-link>
+      <router-link to="/events" class="_icon _icon-events" title="События"></router-link>
     </nav>
   </aside>
 </template>
@@ -59,6 +60,9 @@
         }
         &._icon-home:before {
           background: url('./assets/svg/home.svg');
+        }
+        &._icon-events:before {
+          background: url('./assets/svg/events.svg');
         }
       }
     }

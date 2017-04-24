@@ -3,16 +3,28 @@ import firebase from './db'
 import router from './router'
 import App from './App.vue'
 
-new Vue({
-  el: '#app',
-  router: router,
-  render: h => h(App),
-  computed: {
-    isAuth: function() {
-      firebase.auth().onAuthStateChanged(function(user) {
-        this.user = ( user ? user: null );
-      }.bind(this));
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.authOnly)) {
+    if (!firebase.auth().currentUser) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
     }
-  },
-  data: { user: {} }
+  } else {
+    next()
+  }
+});
+
+const unsubscribe = firebase.auth().onAuthStateChanged(() => {
+
+  new Vue({
+    el: '#app',
+    router: router,
+    template: '<router-view></router-view>'
+  });
+
+  unsubscribe();
 });

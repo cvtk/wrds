@@ -3,7 +3,7 @@
     <app-header></app-header>
     <app-navigation></app-navigation> 
     <main>
-      <div>Home</div>
+      <div>Events</div>
     </main>
   </div>
 
@@ -14,11 +14,11 @@
   import AppNavigation from '../components/app-navigation.vue'
 
   export default {
-    name: 'home',
+    name: 'events',
     components: {
       'app-header': AppHeader,
       'app-navigation': AppNavigation
-    }
+    },
   }
 </script>
 
