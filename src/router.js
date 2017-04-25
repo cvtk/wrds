@@ -6,7 +6,7 @@ const routes = [
   {
     path: '/',
     component: require('./views/Home.vue'),
-    name: 'home',
+    name: 'root',
     meta: { authOnly: true }
   },
   {
@@ -17,8 +17,14 @@ const routes = [
   },
   {
     path: '/publications',
-    component: require('./views/Publication.vue'),
+    component: require('./views/Publications.vue'),
     name: 'publications',
+    meta: { authOnly: true }
+  },
+  {
+    path: '/publications/new',
+    component: require('./views/publications/New.vue'),
+    name: 'new-publication',
     meta: { authOnly: true }
   },
   {

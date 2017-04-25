@@ -3,19 +3,18 @@
     <app-header></app-header>
     <app-navigation></app-navigation> 
     <main>
-      <div>Home</div>
-      <router-link :to="{ name: 'new-publication' }">Новая публикация</router-link>
+      <div>New Pub</div>
     </main>
   </div>
 
 </template>
 
 <script>
-  import AppHeader from '../components/app-header.vue'
-  import AppNavigation from '../components/app-navigation.vue'
+  import AppHeader from '../../components/app-header.vue'
+  import AppNavigation from '../../components/app-navigation.vue'
 
   export default {
-    name: 'home',
+    name: 'publications',
     components: {
       'app-header': AppHeader,
       'app-navigation': AppNavigation

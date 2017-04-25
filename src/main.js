@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import firebase from './db'
 import router from './router'
-
+window.tinymce = ''
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authOnly)) {
     if (!firebase.auth().currentUser) {
