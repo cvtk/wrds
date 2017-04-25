@@ -3,7 +3,7 @@
     <app-header></app-header>
     <app-navigation></app-navigation> 
     <main>
-      <div></div>
+      <div>PROFILE</div>
     </main>
   </div>
 

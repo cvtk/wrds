@@ -6,10 +6,10 @@
     <div class="content-login">
       <div class="login-form">
         <h1>Wrds вход</h1>
-        <p>Используйте свой логин и праоль для входа в систему либо зарегистрируйтесь</p>
+        <p>Для входа используйте адрес электронной почты и пароль. Если Вы впервые на нашем ресурсе то зарегистрируйтесь.</p>
         <form action="">
           <div class="row">
-            <input class="username" type="text" placeholder="Имя пользователя" name="username" required>
+            <input class="username" type="text" placeholder="Эл. почта" name="username" required>
             <input class="password" type="password" placeholder="Пароль" name="password" required>
           </div>
           <div class="row">
