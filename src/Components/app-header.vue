@@ -1,8 +1,8 @@
 <template>
   <header>
-    <div class="dropdown-user">
-      <image class="userpic"></image>
-      <router-link to="/profile" class="username" tag="span">{{ user.email }}</router-link>
+    <div class="dropdown-user" @click="signOut()">
+      <img class="userpic" src="./assets/svg/userpic.svg" alt="Аватар">
+      <span class="username">{{ user.displayName || user.email }}</span>
     </div>
   </header>
 </template>
@@ -11,6 +11,15 @@
   import firebase from '../db';
   export default {
     name: 'app-header',
+    methods: {
+      signOut: function() {
+        firebase.auth().signOut().then(() => {
+          this.$router.push('/login');
+          }, function(error) {
+          //h_error
+          }
+        )}
+    },
     data: function() {
       return { user: firebase.auth().currentUser }
     }
@@ -28,15 +37,23 @@
   .dropdown-user {
     float: right;
     margin-right: 15px;
+    cursor: pointer;
+    transition: background-color .25s ease;
+    padding: 0 15px;
+    &:hover {
+      background-color: #364150;
+    }
+  }
+  .userpic {
+    width: 30px;
+    vertical-align: middle;
   }
   .username {
     color: #c6cfda;
     font-weight: 300;
     font-size: 15px;
-    cursor: pointer;
     line-height: 50px;
-    padding: 16px;
-    transition: background-color .25s ease;
+    padding: 16px 6px;
     &:after {
       content: '';
       display: inline-block;
@@ -46,9 +63,6 @@
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-image: url('./assets/svg/down-arrow.svg');
-    }
-    &:hover {
-      background-color: #364150;
     }
   }
 </style>
