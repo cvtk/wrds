@@ -5,6 +5,7 @@
     <main>
       <div>Home</div>
       <router-link :to="{ name: 'new-publication' }">Новая публикация</router-link>
+      <router-link :to="{ name: 'login' }">Логин</router-link>
     </main>
   </div>
 

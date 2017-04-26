@@ -1,29 +1,52 @@
 <template>
   <div class="content-flow">
+    <app-loader v-show="dataLoading"></app-loader>
     <div class="flow-filter"></div>
     <ul class="flow-list">
-      <li class="list-item" v-for="item in anArray">
-        <router-link to="/" class="item-link">
+      <li class="list-item" v-for="item in publications">
+        <router-link :to="{name: 'publication', params: { key: item['.key']} }" class="item-link">
           <div class="item-banner" :style="{'background-image': 'url(' + item.image + ')'}">
             <span class="rating">{{ item.rating }}</span>
             <span class="category">Проза</span>
           </div>
-          <h2 class="title">{{ item.title }}</h2>
+            <h2 class="title">{{ item.title }}</h2>
+        </router-link>
           <p class="meta">{{ item.author }}, {{ item.date }}</p>
           <p class="teaser">{{ item.teaser }}</p>
           <span class="suspend"></span>
           <span class="views"></span>
-        </router-link>
       </li>
     </ul>
   </div> 
 </template>
 
 <script>
-  import db from '../db'
+  import AppLoader from './app-loader.vue'
+  import firebase from '../db'
+  const db = firebase.database()
   export default { 
     name: 'content-flow',
-    firebase: { anArray: db.ref('publications') } 
+    data () {
+      return { 
+        dataLoading: true,
+      }
+    },
+    mounted () {
+      db.ref('publications').once('value', snapshot => {
+        this.dataLoading = false
+      })
+    },
+    firebase () {
+      return {
+        publications: {
+          source: db.ref('publications'),
+          cancelCallback: function (error) {
+            console.log(error)
+          }
+        }
+      }
+    },
+    components: { AppLoader }
   }
 </script>
 
@@ -40,7 +63,7 @@
   display: table;
   clear: both;
 }
-.content-flow > .flow-list {
+.flow-list {
   display: block;
   position: relative;
   margin: 0;
@@ -48,30 +71,30 @@
   list-style: none;
 }
 
-.content-flow > .flow-list > .list-item {
+.list-item {
   display: block;
   position: relative;
-  cursor: pointer;
 }
 
-.content-flow > .flow-list > .list-item >.item-link {
+.item-link {
+  cursor: pointer;
   text-decoration: none;
   color: inherit;
 }
 
-.content-flow > .flow-list > .list-item:hover > .item-link > .item-banner:after {
+.item-link:hover > .item-banner:after {
   opacity: 1;
 }
 
-.content-flow > .flow-list > .list-item:hover > .item-link > .item-banner > .category {
+.item-link:hover > .item-banner > .category {
   background-color: #ff7f00;
 }
 
-.content-flow > .flow-list > .list-item:hover > .item-link > .title {
+.item-link:hover > .title {
   color: #ff7f00;
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .item-banner {
+.item-banner {
   position: relative;
   width: 25%;
   height: 150px;
@@ -83,7 +106,7 @@
   filter: contrast(120%) sepia(20%);
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .item-banner:after {
+.item-banner:after {
   content: '';
   position: absolute;
   top:0;
@@ -95,7 +118,7 @@
   background: linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(255,127,0,1) 100%);
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .item-banner > .category {
+.category {
   display: block;
   position: absolute;
   left: 0;
@@ -113,7 +136,7 @@
   vertical-align: middle;
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .item-banner > .rating {
+.rating {
   display: block;
   position: relative;
   margin: 0 auto;
@@ -131,7 +154,7 @@
   z-index: 1;
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .item-banner > .rating:after {
+.rating:after {
   content: '';
   position: absolute;
   top: 2px;
@@ -143,7 +166,7 @@
   clip: rect(0px, 71px, 71px, 36.5px);
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .item-banner > .rating:before {
+.rating:before {
   content: '';
   position: absolute;
   top: 2px;
@@ -156,7 +179,7 @@
   transform: rotate(180deg);
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .title {
+.title {
   transition: color .25s ease;
   margin: 0;
   margin-bottom: 5px;
@@ -164,14 +187,14 @@
   line-height: 1.25;
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .meta {
+.meta {
   margin: 5px 0;
   font-size: 13px;
   font-weight: 300;
   color: #828282;
 }
 
-.content-flow > .flow-list > .list-item > .item-link > .teaser {
+.teaser {
   margin: 5px 0;
 }
 </style>

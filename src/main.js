@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import firebase from './db'
 import router from './router'
-window.tinymce = ''
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authOnly)) {
     if (!firebase.auth().currentUser) {
@@ -10,6 +10,8 @@ router.beforeEach((to, from, next) => {
         query: { redirect: to.fullPath }
       })
     } else { next() }
+  } else if ( to.name === 'login' && firebase.auth().currentUser ) {
+    next({ name: 'profile'})
   } else { next() }
 });
 

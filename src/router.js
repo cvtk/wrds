@@ -22,6 +22,12 @@ const routes = [
     meta: { authOnly: true }
   },
   {
+    path: '/publications/:key',
+    component: require('./views/publications/Publication.vue'),
+    name: 'publication',
+    meta: { authOnly: true }
+  },
+  {
     path: '/publications/new',
     component: require('./views/publications/New.vue'),
     name: 'new-publication',
