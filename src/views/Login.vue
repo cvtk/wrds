@@ -28,6 +28,8 @@
 <script>
 import Firebase from 'firebase'
 import firebase from '../db'
+const usersRef = firebase.database().ref('users')
+
   export default {
     name: 'login',
     data: function() {
@@ -37,10 +39,30 @@ import firebase from '../db'
        }
     },
     methods: {
-      signIn: function() {
+
+      saveNewUser(user) {
+        console.log('authData in saveNewUser', user)
+        if (user) {
+          var authName = user.displayName
+          if (authName === null) {
+            authName = user.email.replace(/@.*/, '')
+          }
+
+          usersRef.child(user.uid).set({
+            name: authName,
+            email: user.email,
+            page: user.uid
+          })
+        }
+      },
+
+      signIn() {
         if ( this.credentials.email && this.credentials.password ) {
           firebase.auth().signInWithEmailAndPassword(this.credentials.email, this.credentials.password)
             .then((user) => {
+              usersRef.child(user.uid).once('value', snapshot => {
+                this.saveNewUser(user)
+              })
               this.$router.push('/');
             }).catch((error) => {
               if (error.code === 'auth/wrong-password') {
@@ -55,7 +77,8 @@ import firebase from '../db'
           this.error = 'Для входа необходимо ввести адрес электронной почты и пароль'
         }
       },
-      signInProvider: function(socialNetwork) {
+
+      signInProvider(socialNetwork) {
         var provider;
 
         switch (socialNetwork) {
@@ -65,15 +88,20 @@ import firebase from '../db'
         }
 
         firebase.auth().signInWithPopup(provider).then((result) => {
+          usersRef.child(result.user.uid).once('value', snapshot => {
+            this.saveNewUser(result.user)
+          })
           this.$router.push('/');
         }).catch((error) => {
+          console.log(error)
           if (error.code === 'auth/account-exists-with-different-credential') {
             this.error = 'Адрес электронной почты ' + error.email +
           ' уже связан с другой социальной сетью';
           }
         });
       },
-      signOut: function() {
+
+      signOut() {
         firebase.auth().signOut();
       }
     }

@@ -43,8 +43,14 @@ const routes = [
     path: '/profile',
     component: require('./views/Profile.vue'),
     name: 'profile',
-    meta: { authOnly: false }
-  }
+    meta: { authOnly: true }
+  },
+  {
+    path: '/:userPage',
+    component: require('./views/Home.vue'),
+    name: 'user',
+    meta: { authOnly: true }
+  },
 ]
 
 export default new Router({ 

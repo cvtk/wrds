@@ -1,48 +1,31 @@
 <template>
-  <div id="app">
-    <app-header></app-header>
-    <app-navigation></app-navigation> 
-    <main>
-      <div>Home</div>
-      <router-link :to="{ name: 'new-publication' }">Новая публикация</router-link>
+  <default-layout>
+    <h1>home</h1>
+    <p>{{ user }}</p>
+      <router-link :to="{ name: 'new-publication' }">Новая</router-link>
       <router-link :to="{ name: 'login' }">Логин</router-link>
-    </main>
-  </div>
-
+  </default-layout>
 </template>
-
 <script>
-  import AppHeader from '../components/app-header.vue'
-  import AppNavigation from '../components/app-navigation.vue'
-
+  import DefaultLayout from './layouts/default.vue'
+  import firebase from '../db'
+  const usersRef = firebase.database().ref('users')
   export default {
-    name: 'home',
-    components: {
-      'app-header': AppHeader,
-      'app-navigation': AppNavigation
-    }
+    name: 'publications',
+    components: { DefaultLayout },
+    data() {
+      return { 
+        user: '', 
+        dataLoading: true
+      }
+    },
+    mounted () {
+      usersRef.orderByChild('page').equalTo(this.$route.params.userPage).once('value', snapshot => {
+        this.user = snapshot.val()
+        this.dataLoading = false
+      })
+    },
   }
 </script>
 
-<style lang="scss" scoped>
-  #app {
-    margin: 0 auto;
-    height: 100%;
-    background: #eef1f5;
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.5;
-    color: #333;
-  }
-  main {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    padding-top: 50px;
-    padding-left: 75px;
-    > div {
-      position: relative;
-      margin: 0 15px;
-    }
-  }
-
-</style>
+<style lang="scss" scoped></style>
