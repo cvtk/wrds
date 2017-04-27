@@ -45,7 +45,6 @@
 .component-content {
   position: relative;
   height: 100%;
-  padding: 0 15px;
 }
 
 </style>

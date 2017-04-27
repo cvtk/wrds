@@ -41,7 +41,6 @@ const usersRef = firebase.database().ref('users')
     methods: {
 
       saveNewUser(user) {
-        console.log('authData in saveNewUser', user)
         if (user) {
           var authName = user.displayName
           if (authName === null) {
@@ -61,9 +60,9 @@ const usersRef = firebase.database().ref('users')
           firebase.auth().signInWithEmailAndPassword(this.credentials.email, this.credentials.password)
             .then((user) => {
               usersRef.child(user.uid).once('value', snapshot => {
-                this.saveNewUser(user)
+                if ( snapshot.val() === null ) { this.saveNewUser(result.user) }
               })
-              this.$router.push('/');
+              this.$router.push('/publications');
             }).catch((error) => {
               if (error.code === 'auth/wrong-password') {
                 this.error = 'Неверный пароль для ' + this.credentials.email + ' или Ваша учетная запись не имеет пароля (вход через социальные сети)'
@@ -89,11 +88,10 @@ const usersRef = firebase.database().ref('users')
 
         firebase.auth().signInWithPopup(provider).then((result) => {
           usersRef.child(result.user.uid).once('value', snapshot => {
-            this.saveNewUser(result.user)
+            if ( snapshot.val() === null ) { this.saveNewUser(result.user) }
           })
-          this.$router.push('/');
+          this.$router.push('/publications');
         }).catch((error) => {
-          console.log(error)
           if (error.code === 'auth/account-exists-with-different-credential') {
             this.error = 'Адрес электронной почты ' + error.email +
           ' уже связан с другой социальной сетью';

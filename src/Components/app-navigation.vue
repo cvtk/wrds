@@ -1,16 +1,32 @@
 <template>
   <aside>
     <nav>
-      <router-link to="/" class="_icon _icon-home" title="Главная" exact></router-link>
-      <router-link to="/publications" class="_icon _icon-publications" title="Публикации"></router-link>
-      <router-link to="/events" class="_icon _icon-events" title="События"></router-link>
+      <router-link :to="{ name: 'user', params: { userPage: user.page } }" class="_icon _icon-home" title="Главная" exact></router-link>
+      <router-link :to="{ name: 'publications' }" class="_icon _icon-publications" title="Публикации"></router-link>
+      <router-link :to="{ name: 'events' }" class="_icon _icon-events" title="События"></router-link>
+      <router-link :to="{ name: 'messages' }" class="_icon _icon-messages" title="Сообщения"></router-link>
+      <router-link :to="{ name: 'notifications' }" class="_icon _icon-notifications" title="Уведомления"></router-link>
     </nav>
   </aside>
 </template>
 
 <script>
+  import firebase from '../db'
+  const auth = firebase.auth().currentUser
+  const usersRef = firebase.database().ref('users')
+
   export default {
-    name: 'app-navigation'
+    name: 'app-navigation',
+    firebase() {
+      if (firebase.auth().currentUser) {
+        return {
+          user: {
+            source: usersRef.child(firebase.auth().currentUser.uid),
+            asObject: true,
+          }
+        }        
+      }
+    },
   }
 </script>
 
@@ -54,7 +70,9 @@
         &._icon-publications:before {
           background: url('./assets/svg/publications.svg');
         }
-
+        &._icon-notifications:before {
+          background: url('./assets/svg/notifications.svg');
+        }
         &._icon-messages:before {
           background: url('./assets/svg/messages.svg');
         }

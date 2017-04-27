@@ -11,7 +11,7 @@
   import firebase from '../db'
   const usersRef = firebase.database().ref('users')
   export default {
-    name: 'publications',
+    name: 'user',
     components: { DefaultLayout },
     data() {
       return { 
@@ -20,10 +20,13 @@
       }
     },
     mounted () {
-      usersRef.orderByChild('page').equalTo(this.$route.params.userPage).once('value', snapshot => {
-        this.user = snapshot.val()
-        this.dataLoading = false
-      })
+      const userPage = this.$route.params.userPage
+      if (userPage) {
+        usersRef.orderByChild('page').equalTo(this.$route.params.userPage).once('value', snapshot => {
+          this.user = snapshot.val()
+          this.dataLoading = false
+        })
+      }
     },
   }
 </script>

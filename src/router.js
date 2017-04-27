@@ -4,12 +4,6 @@ import Router from 'vue-router'
 Vue.use(Router)
 const routes = [
   {
-    path: '/',
-    component: require('./views/Home.vue'),
-    name: 'root',
-    meta: { authOnly: true }
-  },
-  {
     path: '/login',
     component: require('./views/Login.vue'),
     name: 'login',
@@ -37,6 +31,18 @@ const routes = [
     path: '/events',
     component: require('./views/Events.vue'),
     name: 'events',
+    meta: { authOnly: true }
+  },
+  {
+    path: '/messages',
+    component: require('./views/Messages.vue'),
+    name: 'messages',
+    meta: { authOnly: true }
+  },
+  {
+    path: '/notifications',
+    component: require('./views/Notifications.vue'),
+    name: 'notifications',
     meta: { authOnly: true }
   },
   {
