@@ -37,6 +37,7 @@
   .wrapper-input {
     position: relative;
     height: 10%;
+    padding: 10px 0;
   }
   .input {
     outline: none;
@@ -44,19 +45,17 @@
     font-size: 17px;
     padding: 10px;
     color: #364150;
-    margin: 25px 0;
     float: left;
     width: 90%;
     font-weight: 300;
   }
   .button {
     width: 10%;
+    cursor: pointer;
     font-size: 17px;
     padding: 10px;
-    outline: 1px solid #c6cfda;
-    margin: 25px 0;
-    border: 0;
-    outline: none;
+    border: 1px solid #c6cfda;
+    outline: 0;
     background-color: #eef1f5;
   }
 </style>

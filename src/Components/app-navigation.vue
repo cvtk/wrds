@@ -1,7 +1,7 @@
 <template>
   <aside>
     <nav>
-      <router-link :to="{ name: 'user', params: { userPage: user.page } }" class="_icon _icon-home" title="Главная" exact></router-link>
+      <router-link :to="{ name: 'user', params: { userPage: user.page } }"class="_icon _icon-home" title="Главная"></router-link>
       <router-link :to="{ name: 'publications' }" class="_icon _icon-publications" title="Публикации"></router-link>
       <router-link :to="{ name: 'events' }" class="_icon _icon-events" title="События"></router-link>
       <router-link :to="{ name: 'messages' }" class="_icon _icon-messages" title="Сообщения"></router-link>

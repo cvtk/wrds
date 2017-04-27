@@ -60,7 +60,7 @@ const usersRef = firebase.database().ref('users')
           firebase.auth().signInWithEmailAndPassword(this.credentials.email, this.credentials.password)
             .then((user) => {
               usersRef.child(user.uid).once('value', snapshot => {
-                if ( snapshot.val() === null ) { this.saveNewUser(result.user) }
+                if ( snapshot.val() === null ) { this.saveNewUser(user) }
               })
               this.$router.push('/publications');
             }).catch((error) => {

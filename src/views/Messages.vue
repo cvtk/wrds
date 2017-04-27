@@ -9,19 +9,23 @@
   import MessagesSidebar from '../components/messages-sidebar.vue';
   import MessagesContent from '../components/messages-content.vue';
   import firebase from '../db';
-  const messagesRef = firebase.database().ref('messages');
+  // TODO сменить на firebase.database().ref('messages');
+  const messagesRef = firebase.database().ref('users');
 
   export default {
     name: 'messages',
     components: { DefaultLayout, MessagesSidebar, MessagesContent },
     props: ['user'],
     data() {
-      return { dataLoading: true }
+      return { 
+        dataLoading: true,
+        partner: ''
+      }
     },
     firebase() {
       return {
         conversations: {
-          source: messagesRef.child(this.user.uid),
+          source: messagesRef,
           asObject: true,
           readyCallback() {
             this.dataLoading = true;
