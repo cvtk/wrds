@@ -1,9 +1,17 @@
 <template>
   <div class="messages-content">
     <div class="content-wrapper">
-      <div class="wrapper-text"></div>
+      <div class="wrapper-text">
+        <ul class="text-list" v-for="message in messages">
+          <li class="item">
+            {{ message.text }}
+          </li>
+        </ul>
+      </div>
       <div class="wrapper-input">
-        <input class="input" type="text" placeholder="Напишите сообщение...">
+        <input class="input" type="text" placeholder="Напишите сообщение..." 
+        v-model="message"
+        @keyup.enter="sendMessage">
         <input type="submit" class="button">
       </div>
     </div>
@@ -12,7 +20,17 @@
 
 <script>
   export default {
-    name: 'messages-content'
+    name: 'messages-content',
+    props: ['partner', 'messages'],
+    data() {
+      return { message: '' }
+    },
+    methods: {
+      sendMessage() {
+        console.log(this.message);
+        this.$emit('sendMessage', this.message);
+      }
+    }
   }
 </script>
 
@@ -33,6 +51,7 @@
     background-color: #eef1f5;
     outline: 1px solid #c6cfda;
     padding-bottom: 10px;
+    text-align: right;
   }
   .wrapper-input {
     position: relative;
