@@ -6,7 +6,6 @@
     </messages-sidebar>
     <messages-content 
     :partner="currentPartner"
-    :messages="currentMessages"
     @sendMessage="saveNewMessage">
     </messages-content>
   </default-layout>
@@ -15,6 +14,7 @@
   import DefaultLayout from './layouts/default.vue';
   import MessagesSidebar from '../components/messages-sidebar.vue';
   import MessagesContent from '../components/messages-content.vue';
+  import Firebase from 'firebase'
   import firebase from '../db';
   // TODO сменить на firebase.database().ref('messages');
   const usersRef = firebase.database().ref('users');
@@ -39,16 +39,13 @@
             this.dataLoading = true;
           }
         },
-        currentMessages: {
-          source: messagesRef.child(this.user.uid).on('child_added', this.newMessage),
+        messages: {
+          source: messagesRef,
           asObject: false
         }
       }
     },
     methods: {
-      newMessage(data) {
-        console.log(data);
-      },
 
       setCurrentPartner(uid) {
         this.currentPartner = uid;
@@ -56,15 +53,11 @@
 
       saveNewMessage(text) {
         if (text && this.user && this.currentPartner) {
-          messagesRef.child(this.user.uid).push({
+          this.$firebaseRefs.messages.push({
             text: text,
-            user: this.currentPartner,
-            inbound: false
-          });
-          messagesRef.child(this.currentPartner).push({
-            text: text,
-            user: this.user.uid,
-            inbound: true
+            sender: this.user.uid,
+            receiver: this.currentPartner,
+            timestamp: Firebase.database.ServerValue.TIMESTAMP
           });
         }
       }
