@@ -5,28 +5,14 @@
       <router-link :to="{ name: 'publications' }" class="_icon _icon-publications" title="Публикации"></router-link>
       <router-link :to="{ name: 'events' }" class="_icon _icon-events" title="События"></router-link>
       <router-link :to="{ name: 'messages' }" class="_icon _icon-messages" title="Сообщения"></router-link>
-      <router-link :to="{ name: 'notifications' }" class="_icon _icon-notifications" title="Уведомления"></router-link>
     </nav>
   </aside>
 </template>
 
 <script>
-  import firebase from '../db'
-  const auth = firebase.auth().currentUser
-  const usersRef = firebase.database().ref('users')
-
   export default {
     name: 'app-navigation',
-    firebase() {
-      if (firebase.auth().currentUser) {
-        return {
-          user: {
-            source: usersRef.child(firebase.auth().currentUser.uid),
-            asObject: true,
-          }
-        }        
-      }
-    },
+    props: ['user']
   }
 </script>
 

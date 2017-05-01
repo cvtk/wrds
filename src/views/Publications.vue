@@ -1,5 +1,5 @@
 <template>
-  <default-layout>
+  <default-layout :data-loading="dataLoading" :auth="auth">
     <content-flow></content-flow>
   </default-layout>
 </template>
@@ -8,7 +8,13 @@
   import ContentFlow from '../components/content-flow.vue'
   export default {
     name: 'publications',
-    components: { DefaultLayout, ContentFlow}
+    components: { DefaultLayout, ContentFlow},
+    props: ['auth'],
+    data() {
+      return {
+        dataLoading: false
+      }
+    }
   }
 </script>
 

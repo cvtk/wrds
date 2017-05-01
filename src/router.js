@@ -16,15 +16,15 @@ const routes = [
     meta: { authOnly: true }
   },
   {
-    path: '/publications/:key',
-    component: require('./views/publications/Publication.vue'),
-    name: 'publication',
-    meta: { authOnly: true }
-  },
-  {
     path: '/publications/new',
     component: require('./views/publications/New.vue'),
     name: 'new-publication',
+    meta: { authOnly: true }
+  },
+  {
+    path: '/publications/:key',
+    component: require('./views/publications/Publication.vue'),
+    name: 'publication',
     meta: { authOnly: true }
   },
   {
@@ -40,15 +40,15 @@ const routes = [
     meta: { authOnly: true }
   },
   {
-    path: '/notifications',
-    component: require('./views/Notifications.vue'),
-    name: 'notifications',
-    meta: { authOnly: true }
-  },
-  {
     path: '/profile',
     component: require('./views/Profile.vue'),
     name: 'profile',
+    meta: { authOnly: true }
+  },
+  {
+    path: '/',
+    component: require('./views/Home.vue'),
+    name: 'home',
     meta: { authOnly: true }
   },
   {

@@ -1,8 +1,8 @@
 <template>
   <header>
     <div class="dropdown-user" @click="signOut()">
-      <img class="userpic" src="./assets/svg/userpic.svg" alt="Аватар">
-      <span class="username">{{ user.displayName || user.email }}</span>
+      <img class="userpic" :src="user.photoURL" alt="Аватар">
+      <span class="username">{{ user.name || user.email }}</span>
     </div>
   </header>
 </template>
@@ -11,6 +11,7 @@
   import firebase from '../db';
   export default {
     name: 'app-header',
+    props: ['user'],
     methods: {
       signOut: function() {
         firebase.auth().signOut().then(() => {
@@ -18,10 +19,7 @@
           }, function(error) {
           //h_error
           }
-        )}
-    },
-    data: function() {
-      return { user: firebase.auth().currentUser }
+      )}
     }
   }
 </script>
