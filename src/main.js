@@ -15,14 +15,14 @@ router.beforeEach((to, from, next) => {
   } else { next() }
 });
 
-const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+const unsubscribe = firebase.auth().onAuthStateChanged((auth) => {
   new Vue({
     el: '#app',
     router: router,
     data() {
-      return { user: user}
+      return { auth: auth}
     },
-    template: '<router-view :user="user"></router-view>'
+    template: '<router-view :auth="auth"></router-view>'
   });
 
   unsubscribe();

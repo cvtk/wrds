@@ -46,11 +46,17 @@ const usersRef = firebase.database().ref('users')
           if (authName === null) {
             authName = user.email.replace(/@.*/, '')
           }
-
+          var photoURL = user.photoURL;
+          if (photoURL === null) {
+            photoURL = '/static/users/default/default-' + (Math.floor(Math.random() * 6) + 1)  + '.svg'
+          }
           usersRef.child(user.uid).set({
             name: authName,
             email: user.email,
-            page: user.uid
+            page: user.uid,
+            photoURL: photoURL,
+            rating: 0,
+            uid: user.uid
           })
         }
       },

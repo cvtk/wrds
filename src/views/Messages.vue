@@ -1,5 +1,5 @@
 <template>
-  <default-layout>
+  <default-layout :data-loading="dataLoading" :auth="auth">
     <messages-sidebar 
     :conversations="conversations" 
     @selectPartner="setCurrentPartner">
@@ -23,7 +23,7 @@
   export default {
     name: 'messages',
     components: { DefaultLayout, MessagesSidebar, MessagesContent },
-    props: ['user'],
+    props: ['auth'],
     data() {
       return { 
         dataLoading: true,
@@ -52,10 +52,10 @@
       },
 
       saveNewMessage(text) {
-        if (text && this.user && this.currentPartner) {
+        if (text && this.auth && this.currentPartner) {
           this.$firebaseRefs.messages.push({
             text: text,
-            sender: this.user.uid,
+            sender: this.auth.uid,
             receiver: this.currentPartner,
             timestamp: Firebase.database.ServerValue.TIMESTAMP
           });

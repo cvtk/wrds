@@ -33,7 +33,7 @@
   .spinner {
     display: block;
     margin: 0 auto;
-    padding-top: 20%;
+    padding-top: 35%;
     width: 5%;
   }
 </style>

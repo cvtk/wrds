@@ -1,5 +1,5 @@
 <template>
-  <default-layout>
+  <default-layout :data-loading="dataLoading" :auth="auth">
   messages
   </default-layout>
 </template>
