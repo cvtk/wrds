@@ -34,6 +34,7 @@
     padding: 30px 0;
     background-color: #fff;
     text-align: center;
+    z-index: 1;
   }
 
   .picture {

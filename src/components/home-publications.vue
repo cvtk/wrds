@@ -4,9 +4,7 @@
       <div class="inner-menu">
         <h2 class="title">Мои публикации</h2>
         <div class="menu-actions">
-          <button class="filter" type="button">Неделя</button>
-          <button class="filter" type="button">Месяц</button>
-          <button class="filter" type="button">Все время</button>
+        <router-link :to="{name: 'new-publication'}" tag="button" class="new" type="button">Новая публикация</router-link>
         </div>
       </div>
     </div>
@@ -22,8 +20,8 @@
 <style lang="scss" scoped>
   .home-publications {
     position: relative;
-    float: left;
     width: 100%;
+    height: 100%;
     padding-left: 320px;
   }
   .publications-inner {
@@ -54,7 +52,7 @@
     padding: 15px 0;
   }
 
-  .filter {
+  .new {
     display: inline-block;
     font-weight: 400;
     text-align: center;
