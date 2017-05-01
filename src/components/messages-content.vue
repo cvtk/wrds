@@ -2,8 +2,9 @@
   <div class="messages-content">
     <div class="content-wrapper">
       <div class="wrapper-text">
-        <ul class="text-list">
+        <ul class="text-list" v-for="message in messages">
           <li class="item">
+            {{ message.text }}
           </li>
         </ul>
       </div>
@@ -20,7 +21,7 @@
 <script>
   export default {
     name: 'messages-content',
-    props: ['partner'],
+    props: ['partner', 'messages'],
     data() {
       return { message: '' }
     },
