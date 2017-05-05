@@ -1,20 +1,38 @@
 <template>
   <aside class="messages-sidebar">
-    <h3 class="recent">Недавние</h3>
-    <ul class="sidebar-users">
-      <li class="users-item"
-        v-for="user in conversations"  
-        @click="selectPartner(user['.key'])" 
-        :class="{ _active: currentPartner === user['.key']}">
+    <ul class="sidebar-menu">
+      <li :class="{ _active: !isUsersTab }" class="menu-item" @click="isUsersTab = false">Беседы</li>
+      <li :class="{ _active: isUsersTab }" class="menu-item" @click="isUsersTab = true ">Люди</li>
+    </ul>
+    <ul class="sidebar-users" v-if="isUsersTab">
+      <router-link tag="li" class="users-item"
+        v-bind:to="{ name: 'user', params: { userPage: user.page } }"  
+        v-for="user in users" :key="user.uid"
+        v-if="user.uid !== auth.uid">
+
         <div class="item-wrapper">
-          <img class="image" src="./assets/svg/userpic.svg" alt="Аватар">
+          <img class="image" :src="user.photoURL" alt="Аватар">
           <div class="item-meta _away">
             <p class="name">{{ user.name }}</p>
-            <span class="rating"></span>
-            <p class="last">Последнее сообщение</p>
-          </div>
-          <span class="messages"></span>          
+            <span class="rating">{{user.rating }}</span>
+          </div>  
+          <img src="./assets/svg/chatting.svg" alt="Беседа" title="Начать беседу" class="chatting" @click.prevent="initConversation(user)">     
         </div>
+
+      </router-link>
+    </ul>
+    <ul class="sidebar-conversations" v-else>
+      <li class="conversations-item" v-for="conversation in conversations">
+        
+        <div class="item-wrapper">
+          <img class="image" src="" alt="Аватар">
+          <div class="item-meta _away">
+            <p class="name">{{conversation}}</p>
+            <span class="rating"></span>
+          </div>  
+          <img src="./assets/svg/chatting.svg" alt="Беседа" title="Начать беседу" class="chatting" @click.prevent="initConversation(user)">     
+        </div>
+
       </li>
     </ul>
   </aside>
@@ -23,17 +41,20 @@
 <script>
   export default {
     name: 'messages-sidebar',
-    props: ['conversations'],
+    props: ['conversations', 'users', 'auth'],
     data() {
-      return { currentPartner: '' }
+      return { 
+        isUsersTab: false,
+      }
     },
     methods: {
-      selectPartner(uid) {
-        this.currentPartner = uid;
-        this.$emit('selectPartner', uid);
+      initConversation(user) {
+        this.isUsersTab = false;
+        this.$emit('initConversation', user);
       }
     }
   }
+
 </script>
 
 <style lang="scss" scoped>
@@ -46,11 +67,35 @@
     border: 10px solid #eef1f5;
     font-weight: 300;
   }
-  .recent {
-    font-size: 17px;
-    margin: 10px 15px;
-    color: #6c8296;
-    font-weight: 300;
+  .sidebar-menu {
+    display: block;
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  }
+  .menu-item {
+    display: block;
+    float: left;
+    width: 50%;
+    text-align: center;
+    height: auto;
+    font-size: 14px;
+    padding: 20px 15px 10px;
+    text-transform: uppercase;
+    color: #90a1af;
+    border-bottom: 3px solid rgba(243,86,93,.3);
+    transition: color .25s ease, border-color .25s ease;
+    cursor: pointer;
+    &._active, &:hover {
+      border-color: #f3565d;
+      color: #fff;
+    }
   }
   .sidebar-users {
     position: relative;
@@ -58,6 +103,7 @@
     padding: 0;
   }
   .users-item {
+    display: block;
     position: relative;
     padding: 15px;
     border-bottom: 1px solid #273037;
@@ -66,22 +112,12 @@
     &:hover, &._active {
       background-color: #273037;
     }
-    &._active:after {
-      content: '';
-      position: absolute;
-      top: 30px;
-      right: 0;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      border-right: 10px solid #eef1f5;
-    }
   }
   .item-wrapper {
     position: relative;
-    width: 100%;
-    height: 50px;
     &:after {
       content: '';
+      display: table;
       clear: both;
     }
   }
@@ -89,7 +125,8 @@
     position: relative;
     float: left;
     padding-left: 15px;
-    width: 200px;
+    width: 195px;
+    height: 50px;
       &:after {
       content: '';
       display: block;
@@ -104,21 +141,26 @@
     &._away:after { background-color: #ffda44 }
     &._online:after { background-color: #36c6d3; }
   }
-  .name, .last {
+  .name {
     font-size: 17px;
     color: #99a8b5;
     margin: 0;
   }
-  .last {
-    font-size: 15px;
-    line-height: 1;
-    padding-top: 10px;
-  }
+
   .image {
     display: block;
-    position: relative;
     float: left;
     width: 50px;
     height: 50px;
+  }
+
+  .chatting {
+    display: block;
+    float: left;
+    width: 25px;
+    height: 25px;
+    filter: grayscale(1);
+    transition: filter .25s ease;
+    &:hover { filter: grayscale(0) }
   }
 </style>
