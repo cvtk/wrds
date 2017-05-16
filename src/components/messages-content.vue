@@ -10,25 +10,40 @@
       </div>
       <div class="wrapper-input">
         <input class="input" type="text" placeholder="Напишите сообщение..." 
-        v-model="message"
-        @keyup.enter="sendMessage">
-        <input type="submit" class="button">
+        v-model="message">
+        <input type="submit" class="button" @click.prevent="sendMessage()">
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Firebase from 'firebase'
+  import firebase from '../db';
+
+  const db = firebase.database();
+
   export default {
     name: 'messages-content',
-    props: ['partner', 'messages'],
+    props: ['auth','currentUser'],
     data() {
       return { message: '' }
     },
+    firebase() {
+      return {
+        messages: db.ref('messages').child(this.auth.uid)
+      }
+    },
+    watch: {
+      currentUser(newUser) {
+        this.$firebaseRefs.messages.orderByChild('partner').equalTo(newUser);
+        console.log(this.messages)
+      }
+    },
     methods: {
       sendMessage() {
-        console.log(this.message);
-        this.$emit('sendMessage', this.message);
+        console.log(this.messages);
+        console.log(this.currentUser);
       }
     }
   }
